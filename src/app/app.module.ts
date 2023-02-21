@@ -5,10 +5,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './modules/material.module';
 import { AppComponent } from './app.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
