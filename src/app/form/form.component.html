@@ -8,19 +8,18 @@
         class="form"
         #formDirective="ngForm"
         [formGroup]="feForm"
-        (ngSubmit)="onSubmit(formDirective)"
-      >
+        (ngSubmit)="onSubmit(formDirective)">
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Name</mat-label>
           <input matInput formControlName="firstName" />
-          <mat-error *ngIf="feForm.get('firstName')?.hasError('required')">
+          <mat-error *ngIf="getErrors(['firstName'])['required']">
             Name is required
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Last Name</mat-label>
           <input matInput formControlName="lastName" />
-          <mat-error *ngIf="feForm.get('lastName')?.hasError('required')">
+          <mat-error *ngIf="getErrors(['lastName'])['required']">
             Last name is required
           </mat-error>
         </mat-form-field>
@@ -29,14 +28,13 @@
           <input
             matInput
             formControlName="dateOfBirth"
-            [matDatepicker]="picker"
-          />
+            [matDatepicker]="picker"/>
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
           </mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="feForm.get('dateOfBirth')?.hasError('required')">
+          <mat-error *ngIf="getErrors(['dateOfBirth'])['required']">
             Date of Birth is required
           </mat-error>
         </mat-form-field>
@@ -47,7 +45,7 @@
             }}</mat-option>
           </mat-select>
           <mat-label>Framework</mat-label>
-          <mat-error *ngIf="framework.hasError('required')">
+          <mat-error *ngIf="getErrors(['framework'])['required']">
             Framework is required
           </mat-error>
         </mat-form-field>
@@ -61,8 +59,7 @@
           </mat-select>
           <mat-label>Framework Version</mat-label>
           <mat-error
-            *ngIf="feForm.get('frameworkVersion')?.hasError('required')"
-          >
+           *ngIf="getErrors(['frameworkVersion'])['required']">
             Framework version is required
           </mat-error>
         </mat-form-field>
@@ -73,18 +70,16 @@
             formControlName="email"
             type="email"
             placeholder=" email@example.com"
-          />
-          <mat-error *ngIf="email.hasError('required')">
+            (click)="getErrors(['email'])"/>
+          <mat-error  *ngIf="getErrors(['email'])['required']">
             Email is required
           </mat-error>
           <mat-error
-            *ngIf="email.hasError('email') && !email.hasError('required')"
-          >
+          *ngIf="getErrors(['email'])['email']">
             Please enter a valid email address
           </mat-error>
           <mat-error
-            *ngIf="email.hasError('verifyTest') && !email.hasError('required')"
-          >
+            *ngIf="getErrors(['email'])['verifyTest']">
             This email is already in use
           </mat-error>
         </mat-form-field>
@@ -93,8 +88,7 @@
             *ngFor="let hobby of hobbies; let i = index"
             appearance="fill"
             floatLabel="auto"
-            [formGroupName]="i"
-          >
+            [formGroupName]="i">
             <div class="upper-panel">
               <span>{{ i + 1 }}. Hobby</span>
               <button
@@ -103,18 +97,23 @@
                 color="accent"
                 aria-label="Add a new hobby button"
                 (click)="onDeleteHobby(i)"
-                mat-icon-button
-              >
+                mat-icon-button>
                 <mat-icon>remove</mat-icon>
               </button>
             </div>
             <mat-form-field>
               <mat-label> Name</mat-label>
               <input matInput formControlName="name" />
+            <mat-error *ngIf="getErrors(['hobbies', i, 'name'])['required']">
+                Hobby name is required
+            </mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label> Duration</mat-label>
               <input matInput formControlName="duration" />
+            <mat-error *ngIf="getErrors(['hobbies', i, 'duration'])['required']">
+                Hobby duration is required
+            </mat-error>
             </mat-form-field>
           </div>
           <button
@@ -122,8 +121,7 @@
             color="accent"
             aria-label="Add a new hobby button"
             (click)="onAddHobby()"
-            mat-icon-button
-          >
+            mat-icon-button>
             <mat-icon>add</mat-icon>
           </button>
         </div>
@@ -132,8 +130,7 @@
           class="submit"
           color="accent"
           [disabled]="!feForm.valid"
-          mat-flat-button
-        >
+          mat-flat-button>
           Send
         </button>
       </form>

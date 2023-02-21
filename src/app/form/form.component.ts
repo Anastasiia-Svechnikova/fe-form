@@ -3,7 +3,6 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
@@ -11,6 +10,7 @@ import {
 import { distinctUntilChanged, Subscription } from 'rxjs';
 
 import { FormService } from './form.service';
+import { FrameworkTypes } from './form.types';
 import { transformDate } from './helpers/transformDate';
 
 @Component({
@@ -45,9 +45,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   this.frameworkControl$ = this.framework.valueChanges
+   this.frameworkControl$ =this.feForm.get('framework')!.valueChanges
       .pipe(distinctUntilChanged())
-      .subscribe((value) => {
+      .subscribe((value: FrameworkTypes) => {
         this.feForm.controls['frameworkVersion'].enable();
         this.formService.getFrameworkVersions(value);
       });
@@ -77,13 +77,12 @@ export class FormComponent implements OnInit, OnDestroy {
   onDeleteHobby(i: number): void {
     (<FormArray>this.feForm.get('hobbies')).removeAt(i);
   }
-  get framework(): AbstractControl<string> {
-    return <FormControl>this.feForm.get('framework');
+  getErrors(controlName: (string| number)[]): { [key: string]: boolean } {
+    const errors = this.feForm.get(controlName)?.errors
+    return {...errors}
   }
+
   get hobbies(): AbstractControl<string>[] {
     return (<FormArray>this.feForm.get('hobbies')).controls;
-  }
-  get email(): AbstractControl<string> {
-    return <FormControl>this.feForm.get('email');
   }
 }
