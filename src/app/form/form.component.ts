@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -8,7 +8,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 
 import { FormService } from './form.service';
 import { transformDate } from './helpers/transformDate';
@@ -18,9 +18,10 @@ import { transformDate } from './helpers/transformDate';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
   feForm: FormGroup;
   feOptions = ['angular', 'react', 'vue'];
+  frameworkControl$!: Subscription
 
   constructor(private fb: FormBuilder, public formService: FormService) {
     this.feForm = this.fb.group({
@@ -44,12 +45,15 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.framework.valueChanges
+   this.frameworkControl$ = this.framework.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((value) => {
         this.feForm.controls['frameworkVersion'].enable();
         this.formService.getFrameworkVersions(value);
       });
+  }
+  ngOnDestroy(): void {
+     this.frameworkControl$.unsubscribe()
   }
 
   onSubmit(formDirective: FormGroupDirective): void {

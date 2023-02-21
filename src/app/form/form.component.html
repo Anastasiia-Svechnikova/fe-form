@@ -6,9 +6,9 @@
     <div class="wrapper">
       <form
         class="form"
+        #formDirective="ngForm"
         [formGroup]="feForm"
         (ngSubmit)="onSubmit(formDirective)"
-        #formDirective="ngForm"
       >
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Name</mat-label>
@@ -17,20 +17,19 @@
             Name is required
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill" [floatLabel]="'auto'">
+        <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Last Name</mat-label>
           <input matInput formControlName="lastName" />
           <mat-error *ngIf="feForm.get('lastName')?.hasError('required')">
             Last name is required
           </mat-error>
         </mat-form-field>
-
         <mat-form-field appearance="fill">
           <mat-label>Date of Birth</mat-label>
           <input
             matInput
-            [matDatepicker]="picker"
             formControlName="dateOfBirth"
+            [matDatepicker]="picker"
           />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker">
@@ -41,7 +40,6 @@
             Date of Birth is required
           </mat-error>
         </mat-form-field>
-
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-select formControlName="framework">
             <mat-option *ngFor="let option of feOptions" [value]="option">{{
@@ -53,7 +51,6 @@
             Framework is required
           </mat-error>
         </mat-form-field>
-
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-select formControlName="frameworkVersion">
             <mat-option
@@ -69,14 +66,13 @@
             Framework version is required
           </mat-error>
         </mat-form-field>
-
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Email</mat-label>
           <input
             matInput
+            formControlName="email"
             type="email"
             placeholder=" email@example.com"
-            formControlName="email"
           />
           <mat-error *ngIf="email.hasError('required')">
             Email is required
@@ -92,7 +88,6 @@
             This email is already in use
           </mat-error>
         </mat-form-field>
-
         <div class="hobbies" formArrayName="hobbies">
           <div
             *ngFor="let hobby of hobbies; let i = index"
@@ -102,14 +97,13 @@
           >
             <div class="upper-panel">
               <span>{{ i + 1 }}. Hobby</span>
-
               <button
                 *ngIf="i > 0"
                 type="button"
-                mat-icon-button
                 color="accent"
                 aria-label="Add a new hobby button"
                 (click)="onDeleteHobby(i)"
+                mat-icon-button
               >
                 <mat-icon>remove</mat-icon>
               </button>
@@ -123,13 +117,12 @@
               <input matInput formControlName="duration" />
             </mat-form-field>
           </div>
-
           <button
             type="button"
-            mat-icon-button
             color="accent"
             aria-label="Add a new hobby button"
             (click)="onAddHobby()"
+            mat-icon-button
           >
             <mat-icon>add</mat-icon>
           </button>
@@ -137,9 +130,9 @@
         <button
           type="submit"
           class="submit"
-          mat-flat-button
           color="accent"
           [disabled]="!feForm.valid"
+          mat-flat-button
         >
           Send
         </button>
