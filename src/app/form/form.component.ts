@@ -45,7 +45,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   this.frameworkCtrlSubscription =this.feForm.get('framework')!.valueChanges
+   this.frameworkCtrlSubscription = this.feForm.get('framework')!.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((value: FrameworkTypes) => {
         this.feForm.controls['frameworkVersion'].enable();
@@ -74,12 +74,12 @@ export class FormComponent implements OnInit, OnDestroy {
     );
   }
 
-  onDeleteHobby(i: number): void {
-    (<FormArray>this.feForm.get('hobbies')).removeAt(i);
+  onDeleteHobby(index: number): void {
+    (<FormArray>this.feForm.get('hobbies')).removeAt(index);
   }
   getErrors(controlName: (string| number)[]): { [key: string]: boolean } {
     const errors = this.feForm.get(controlName)?.errors
-    return {...errors}
+    return { ...errors }
   }
 
   get hobbies(): AbstractControl<string>[] {
