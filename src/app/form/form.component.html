@@ -53,13 +53,12 @@
           <mat-select formControlName="frameworkVersion">
             <mat-option
               *ngFor="let option of formService.frameworkVersions$ | async"
-              [value]="option"
-              >{{ option }}
+              [value]="option">
+              {{ option }}
             </mat-option>
           </mat-select>
           <mat-label>Framework Version</mat-label>
-          <mat-error
-           *ngIf="getErrors(['frameworkVersion'])['required']">
+          <mat-error *ngIf="getErrors(['frameworkVersion'])['required']">
             Framework version is required
           </mat-error>
         </mat-form-field>
@@ -71,15 +70,13 @@
             type="email"
             placeholder=" email@example.com"
             (click)="getErrors(['email'])"/>
-          <mat-error  *ngIf="getErrors(['email'])['required']">
+          <mat-error *ngIf="getErrors(['email'])['required']">
             Email is required
           </mat-error>
-          <mat-error
-          *ngIf="getErrors(['email'])['email']">
+          <mat-error *ngIf="getErrors(['email'])['email']">
             Please enter a valid email address
           </mat-error>
-          <mat-error
-            *ngIf="getErrors(['email'])['verifyTest']">
+          <mat-error *ngIf="getErrors(['email'])['verifyTest']">
             This email is already in use
           </mat-error>
         </mat-form-field>
@@ -92,45 +89,46 @@
             <div class="upper-panel">
               <span>{{ i + 1 }}. Hobby</span>
               <button
+                mat-icon-button
                 *ngIf="i > 0"
                 type="button"
                 color="accent"
                 aria-label="Add a new hobby button"
-                (click)="onDeleteHobby(i)"
-                mat-icon-button>
+                (click)="onDeleteHobby(i)">
                 <mat-icon>remove</mat-icon>
               </button>
             </div>
             <mat-form-field>
               <mat-label> Name</mat-label>
               <input matInput formControlName="name" />
-            <mat-error *ngIf="getErrors(['hobbies', i, 'name'])['required']">
+              <mat-error *ngIf="getErrors(['hobbies', i, 'name'])['required']">
                 Hobby name is required
-            </mat-error>
+              </mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label> Duration</mat-label>
               <input matInput formControlName="duration" />
-            <mat-error *ngIf="getErrors(['hobbies', i, 'duration'])['required']">
+              <mat-error
+                *ngIf="getErrors(['hobbies', i, 'duration'])['required']">
                 Hobby duration is required
-            </mat-error>
+              </mat-error>
             </mat-form-field>
           </div>
           <button
+            mat-icon-button
             type="button"
             color="accent"
             aria-label="Add a new hobby button"
-            (click)="onAddHobby()"
-            mat-icon-button>
+            (click)="onAddHobby()">
             <mat-icon>add</mat-icon>
           </button>
         </div>
         <button
+          mat-flat-button
           type="submit"
           class="submit"
           color="accent"
-          [disabled]="!feForm.valid"
-          mat-flat-button>
+          [disabled]="!feForm.valid">
           Send
         </button>
       </form>
