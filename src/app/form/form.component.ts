@@ -21,7 +21,7 @@ import { transformDate } from './helpers/transformDate';
 export class FormComponent implements OnInit, OnDestroy {
   feForm: FormGroup;
   feOptions = ['angular', 'react', 'vue'];
-  frameworkControl$!: Subscription
+  frameworkCtrlSubscription!: Subscription
 
   constructor(private fb: FormBuilder, public formService: FormService) {
     this.feForm = this.fb.group({
@@ -45,7 +45,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   this.frameworkControl$ =this.feForm.get('framework')!.valueChanges
+   this.frameworkCtrlSubscription =this.feForm.get('framework')!.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((value: FrameworkTypes) => {
         this.feForm.controls['frameworkVersion'].enable();
@@ -53,7 +53,7 @@ export class FormComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy(): void {
-     this.frameworkControl$.unsubscribe()
+     this.frameworkCtrlSubscription.unsubscribe()
   }
 
   onSubmit(formDirective: FormGroupDirective): void {

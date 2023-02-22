@@ -5,7 +5,8 @@ import {
   map,
   Observable,
   of,
-  Subject
+  Subject,
+  take
 } from 'rxjs';
 import {FrameworkTypes, IFrameworkVersions } from './form.types';
 
@@ -23,7 +24,9 @@ export class FormService {
 
   getFrameworkVersions(framework: FrameworkTypes): void {
     of(data)
-      .pipe(map((data: IFrameworkVersions ) => data[framework]))
+      .pipe(
+        take(1),
+        map((data: IFrameworkVersions) => data[framework]))
       .subscribe((data) => {
         this.frameworkVersions$.next(data);
       });
