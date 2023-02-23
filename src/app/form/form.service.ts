@@ -31,11 +31,4 @@ export class FormService {
         this.frameworkVersions$.next(data);
       });
   }
-
-  asyncValidator(control: FormControl): Observable<ValidationErrors | null> {
-    return of(control.value).pipe(
-      delay(500),
-      map((value: string) => (value === 'test@test.test' ? { verifyTest: true } : null))
-    );
-  }
 }

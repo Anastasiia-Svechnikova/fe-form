@@ -32,8 +32,7 @@ export class FormComponent implements OnInit, OnDestroy {
       frameworkVersion: [{ value: '', disabled: true }, Validators.required],
       email: [
         '',
-        [Validators.required, Validators.email],
-        this.formService.asyncValidator,
+        [Validators.required, Validators.email]
       ],
       hobbies: this.fb.array([
         this.fb.group({

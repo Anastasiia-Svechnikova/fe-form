@@ -65,6 +65,7 @@
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Email</mat-label>
           <input
+            appAsyncValidator
             matInput
             formControlName="email"
             type="email"
@@ -76,7 +77,7 @@
           <mat-error *ngIf="getErrors(['email'])['email']">
             Please enter a valid email address
           </mat-error>
-          <mat-error *ngIf="getErrors(['email'])['verifyTest']">
+          <mat-error  *ngIf="getErrors(['email'])['verifyTest']">
             This email is already in use
           </mat-error>
         </mat-form-field>
