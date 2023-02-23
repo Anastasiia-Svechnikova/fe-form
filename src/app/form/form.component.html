@@ -1,0 +1,138 @@
+<mat-card class="card">
+  <mat-card-header class="header">
+    <mat-card-title>Frontend Engineer Form</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="wrapper">
+      <form
+        class="form"
+        #formDirective="ngForm"
+        [formGroup]="feForm"
+        (ngSubmit)="onSubmit(formDirective)">
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="firstName" />
+          <mat-error *ngIf="getErrors(['firstName'])['required']">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" />
+          <mat-error *ngIf="getErrors(['lastName'])['required']">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Date of Birth</mat-label>
+          <input
+            matInput
+            formControlName="dateOfBirth"
+            [matDatepicker]="picker"/>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="getErrors(['dateOfBirth'])['required']">
+            Date of birth is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-select formControlName="framework">
+            <mat-option *ngFor="let option of feOptions" [value]="option">{{
+              option | titlecase
+            }}</mat-option>
+          </mat-select>
+          <mat-label>Framework</mat-label>
+          <mat-error *ngIf="getErrors(['framework'])['required']">
+            Framework is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-select formControlName="frameworkVersion">
+            <mat-option
+              *ngFor="let option of formService.frameworkVersions$ | async"
+              [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+          <mat-label>Framework Version</mat-label>
+          <mat-error *ngIf="getErrors(['frameworkVersion'])['required']">
+            Framework version is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Email</mat-label>
+          <input
+            appAsyncValidator
+            matInput
+            formControlName="email"
+            type="email"
+            placeholder=" email@example.com"
+            (click)="getErrors(['email'])"/>
+          <mat-error *ngIf="getErrors(['email'])['required']">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="getErrors(['email'])['email']">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error  *ngIf="getErrors(['email'])['verifyTest']">
+            This email is already in use
+          </mat-error>
+        </mat-form-field>
+        <div class="hobbies" formArrayName="hobbies">
+          <div
+            *ngFor="let hobby of hobbies; let i = index"
+            appearance="fill"
+            floatLabel="auto"
+            [formGroupName]="i">
+            <div class="upper-panel">
+              <span>{{ i + 1 }}. Hobby</span>
+              <button
+                mat-icon-button
+                *ngIf="i > 0"
+                type="button"
+                color="accent"
+                aria-label="Add a new hobby"
+                (click)="onDeleteHobby(i)">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+            <mat-form-field>
+              <mat-label> Name</mat-label>
+              <input matInput formControlName="name" />
+              <mat-error *ngIf="getErrors(['hobbies', i, 'name'])['required']">
+                Hobby name is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label> Duration</mat-label>
+              <input matInput formControlName="duration" />
+              <mat-error
+                *ngIf="getErrors(['hobbies', i, 'duration'])['required']">
+                Hobby duration is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <button
+            mat-icon-button
+            type="button"
+            color="accent"
+            aria-label="Add a new hobby button"
+            (click)="onAddHobby()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <button
+          mat-flat-button
+          type="submit"
+          class="submit"
+          color="accent"
+          [disabled]="!feForm.valid">
+          Send
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
